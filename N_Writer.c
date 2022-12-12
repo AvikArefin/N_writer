@@ -178,7 +178,7 @@ void go_to_output()
 
 void go_to_input()
 { // GOTO INPUT
-    MOVE_UP(10);
+    MOVE_DOWN(4);
     RETURN_CARRIAGE();
     MOVE_FORWARD(2);
 }
@@ -190,7 +190,7 @@ void notify(char *str, int integer)
     short int y = c_wherey();
 
     GOTOXY(12, 2);
-    printf("COMMAND: %s - %d", str, integer);
+    printf("COMMAND: %s - %d", *str, integer);
     GOTOXY(x + 1, y);
 }
 
@@ -208,39 +208,37 @@ void main_loop(int line_no)
         t = clock();
 
         // ON GOING: CHECK EACH CHACTER ONE BY ONE
-        // for (int i = 0; i < text_arr.word_num; i++) // one cycle for each word
-        // {
-        //     notify("", i);
-        //     int index = text_arr.arr[i];
-        //     for (int j = 0; j < char_counter(arr[index]); j++) // one cycle for each letter
-        //     {
-        //         char x = c_getch();
-        //         if (x == ' ')
-        //         {
-        //             ERASE_LINE();
-        //             RETURN_CARRIAGE();
-        //             break;
-        //         }
-        //         else if (x == 127)
-        //         {
-        //             // printf(ERASE_LINE);
-        //             notify("BACKSPACE", 0);
-        //             // TODO: Create a function that would take the cursor to a place, print a text and then come back to the specified place.
-        //         }
-        //         else if (x == arr[index][j])
-        //         {
-        //             printf("%c", x);
-        //         }
-        //         else
-        //         {
-        //             // printf("%c", x & '_');
-        //             // notify("WRONG", 0);
-        //             notify("", j);
-        //         }
-        //     }
-        // }
-
-        gets(input);
+        for (int i = 0; i < text_arr.word_num; i++) // one cycle for each word
+        {
+            notify("", i);
+            int index = text_arr.arr[i];
+            for (int j = 0; j < char_counter(arr[index]); j++) // one cycle for each letter
+            {
+                char x = c_getch();
+                if (x == ' ')
+                {
+                    ERASE_LINE();
+                    RETURN_CARRIAGE();
+                    break;
+                }
+                else if (x == 127)
+                {
+                    // printf(ERASE_LINE);
+                    notify("BACKSPACE", 0);
+                    // TODO: Create a function that would take the cursor to a place, print a text and then come back to the specified place.
+                }
+                else if (x == arr[index][j])
+                {
+                    printf("%c", x);
+                }
+                else
+                {
+                    // printf("%c", x & '_');
+                    // notify("WRONG", 0);
+                    notify("", j);
+                }
+            }
+        }
 
         t = clock() - t;
 

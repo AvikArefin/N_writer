@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "conio.h": "c",
+        "WELCOME.C": "cpp",
+        "TT.C": "cpp"
     }
 }
