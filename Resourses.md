@@ -17,3 +17,7 @@
 5. Learn git
 
     https://www.freecodecamp.org/news/learn-the-basics-of-git-in-under-10-minutes-da548267cc91/
+
+6. Char to int
+
+    https://scholarsoul.com/convert-char-to-int-in-c/#:~:text=We%20can%20convert%20char%20to,ascii%20of%20that%20integer%20digit.

@@ -186,8 +186,8 @@ void go_to_input()
 void notify(char *str, int integer)
 {
     // GOTO THE NOTICEBAR
-    short int x = c_wherex();
-    short int y = c_wherey();
+    int x = c_wherex();
+    int y = c_wherey();
 
     GOTOXY(12, 2);
     printf("COMMAND: %s - %d", *str, integer);
@@ -272,7 +272,7 @@ void main_loop(int line_no)
 int main()
 {
     CLEAR_SCREEN();
-    GOTOXY(1, 1);
+    GOTOXY(0, 0);
 
     printf("%s", border);
     xprint(welcome);
