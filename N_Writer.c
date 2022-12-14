@@ -20,7 +20,7 @@ Licensed under GPL 2.0
 #define RETURN_CARRIAGE() printf("\r")
 #define CLEAR_SCREEN() printf("\033[2J")
 
-#define GOTOXY(x, y) printf("\033[%d;%dH", x, y)
+#define GOTOXY(x, y) printf("\033[%d;%dH", y, x)
 
 #define MOVE_UP(x) printf("\033[%dA", x)
 #define MOVE_DOWN(x) printf("\033[%dB", x)
@@ -140,19 +140,6 @@ void text_to_write()
     text_arr.word_num = word_num;
 }
 
-// void text_to_write()
-// {
-//     printf("  ");
-//     int i = 0;
-//     while (i < 9)
-//     {
-//         int random_num = random_num_chooser();
-//         printf("%s", arr[random_num]);
-//         printf(" ");
-//         i++;
-//     }
-//     // printf("\n");
-// }
 
 void xprint(const char *str)
 {
@@ -169,29 +156,31 @@ void xprinti(char *str, int i)
     printf("| %50s%10d |\n", str, i);
 }
 
-void go_to_output()
-{ // GO TO SCREEN
-    MOVE_UP(10);
+void change_screen_text()
+{
+    GOTOXY(2, 2);
     ERASE_LINE();
     RETURN_CARRIAGE();
-}
 
-void go_to_input()
-{ // GOTO INPUT
-    MOVE_DOWN(4);
+    text_to_write();
+
+    MOVE_DOWN(3);
     RETURN_CARRIAGE();
     MOVE_FORWARD(2);
 }
 
-void notify(char *str, int integer)
+short int x_position = 3, y_position = 4;
+void notifier(char *str)
 {
-    // GOTO THE NOTICEBAR
-    int x = c_wherex();
-    int y = c_wherey();
-
-    GOTOXY(12, 2);
-    printf("COMMAND: %s - %d", *str, integer);
-    GOTOXY(x + 1, y);
+    // MOVE_DOWN(4);
+    GOTOXY(2, 10);
+    ERASE_LINE();
+    RETURN_CARRIAGE();
+    printf("COMMAND: %s @ [%d, %d]", str, x_position - 2, y_position - 3);
+    MOVE_UP(3);
+    RETURN_CARRIAGE();
+    // MOVE_FORWARD(x_position);
+    GOTOXY(x_position, y_position);
 }
 
 void main_loop(int line_no)
@@ -208,38 +197,79 @@ void main_loop(int line_no)
         t = clock();
 
         // ON GOING: CHECK EACH CHACTER ONE BY ONE
-        for (int i = 0; i < text_arr.word_num; i++) // one cycle for each word
+        // for (int i = 0; i < text_arr.word_num; i++) // one cycle for each word
+        // {
+        //     notify("", i);
+        //     int index = text_arr.arr[i];
+        //     for (int j = 0; j < char_counter(arr[index]); j++) // one cycle for each letter
+        //     {
+        //         char x = c_getch();
+        //         if (x == ' ')
+        //         {
+        //             ERASE_LINE();
+        //             RETURN_CARRIAGE();
+        //             break;
+        //         }
+        //         else if (x == 127)
+        //         {
+        //             // printf(ERASE_LINE);
+        //             notifier("BACKSPACE");
+        //             // TODO: Create a function that would take the cursor to a place, print a text and then come back to the specified place.
+        //         }
+        //         else if (x == arr[index][j])
+        //         {
+        //             printf("%c", x);
+        //         }
+        //         else
+        //         {
+        //             notify("", j);
+        //         }
+        //     }
+        // }
+
+        // ----------------------------
+
+        int n = 10;
+
+        GOTOXY(3, 4); // Input line
+
+        for (int i = 0; i < n; i++)
         {
-            notify("", i);
-            int index = text_arr.arr[i];
-            for (int j = 0; j < char_counter(arr[index]); j++) // one cycle for each letter
+            char x = c_getch();
+            if (x == ' ')
             {
-                char x = c_getch();
-                if (x == ' ')
+                printf("%c", x);
+                // RETURN_CARRIAGE();
+                // ERASE_LINE();
+                x_position++;
+                notifier("White Space");
+            }
+            else if (x == '\b')
+            {
+                if (x_position > 1)
                 {
-                    ERASE_LINE();
-                    RETURN_CARRIAGE();
-                    break;
-                }
-                else if (x == 127)
-                {
-                    // printf(ERASE_LINE);
-                    notify("BACKSPACE", 0);
-                    // TODO: Create a function that would take the cursor to a place, print a text and then come back to the specified place.
-                }
-                else if (x == arr[index][j])
-                {
-                    printf("%c", x);
-                }
-                else
-                {
-                    // printf("%c", x & '_');
-                    // notify("WRONG", 0);
-                    notify("", j);
-                }
+                    x_position--;
+                } // TODO: Safety for negative values
+                notifier("BackSpace");
+            }
+            else if (x == '\x0D')
+            {
+                notifier("Enter");
+                // ERASE_LINE();
+                printf("\n");
+                RETURN_CARRIAGE();
+                y_position++;
+                x_position = 1;
+            }
+            else if (x >= 'a' && x <= 'z' || x >= 'A' && x <= 'Z')
+            {
+                notifier("Character");
+                printf("%c", x);
+                x_position++;
             }
         }
-
+        printf("\n");
+        // -----------------------
         t = clock() - t;
 
         double time_taken = ((double)t) / 1000;
@@ -260,10 +290,8 @@ void main_loop(int line_no)
 
         printf("%s", border);
 
-        // SCREEN AND BACK TO INPUT
-        go_to_output();
-        text_to_write();
-        go_to_input();
+        // SCREEN AND BACK TO INPU
+        change_screen_text();
 
         line_no--;
     }
@@ -283,8 +311,12 @@ int main()
     int line_no;
     xprint("How many lines?");
     scanf("%d", &line_no);
-    main_loop(line_no);
 
+    GOTOXY(1, 5);
+    ERASE_LINE();
+    xprint("");
+
+    main_loop(line_no);
     // PAUSE FOR A BIT
     char c;
     scanf("%c", &c);
