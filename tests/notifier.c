@@ -45,19 +45,24 @@ int main()
         char x = c_getch();
         if (x == ' ')
         {
-            RETURN_CARRIAGE();
-            ERASE_LINE();
+            printf("%c", x);
+            // RETURN_CARRIAGE();
+            // ERASE_LINE();
+            x_position++;
             notify("White Space");
         }
         else if (x == '\b')
         {
-            x_position--; // TODO: Safety for negative values
+            if (x_position > 1)
+            {
+                x_position--;
+            } // TODO: Safety for negative values
             notify("BackSpace");
         }
         else if (x == '\x0D')
         {
             notify("Enter");
-            ERASE_LINE();
+            // ERASE_LINE();
             printf("\n");
             RETURN_CARRIAGE();
             y_position++;
