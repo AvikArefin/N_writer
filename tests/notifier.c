@@ -29,6 +29,8 @@ void notify(char *str)
 // Test 2: if c_getch() is working - Done
 // Test 3: c_wherex is not working properly
 // Find a better solution
+// Do it the times there are letters
+
 int main()
 {
     CLEAR_SCREEN();

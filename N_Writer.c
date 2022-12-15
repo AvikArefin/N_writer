@@ -11,6 +11,7 @@ Licensed under GPL 2.0
 */
 
 #include <stdio.h>
+#include <string.h>
 #include "conio.c"   // For getch
 #include <stdlib.h>  //
 #include <time.h>    // For the timer
@@ -122,24 +123,32 @@ struct Power_array
 };
 struct Power_array text_arr;
 
+int text_holder_no = 0; // ADDED
+char text_holder[100] = "";
+
 void text_to_write()
 {
     printf("  ");
     int i = 0;
-    int word_num = 0;
+    int word_num = 0; // NOT NEDDED ATM
     while (i < 60)
     {
         int random_num = random_num_chooser();
         printf("%s", arr[random_num]);
         printf(" ");
+
+        strcat(text_holder, arr[random_num]); // ADDED
+        strcat(text_holder, " ");
+
         i += char_counter(arr[random_num]) + 1;
 
-        text_arr.arr[word_num] = random_num;
+        text_arr.arr[word_num] = random_num; // NOT NEEDED ATM
         word_num++;
     }
-    text_arr.word_num = word_num;
-}
+    text_arr.word_num = word_num; // NOT NEEDED ATM
 
+    text_holder_no = char_counter(text_holder); // ADDED
+}
 
 void xprint(const char *str)
 {
@@ -182,6 +191,8 @@ void notifier(char *str)
     // MOVE_FORWARD(x_position);
     GOTOXY(x_position, y_position);
 }
+
+int text_holder_index = 0;
 
 void main_loop(int line_no)
 {
@@ -233,45 +244,61 @@ void main_loop(int line_no)
 
         GOTOXY(3, 4); // Input line
 
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < text_holder_no; i++)
         {
             char x = c_getch();
-            if (x == ' ')
-            {
-                printf("%c", x);
-                // RETURN_CARRIAGE();
-                // ERASE_LINE();
-                x_position++;
-                notifier("White Space");
-            }
-            else if (x == '\b')
+            // if (x == ' ')
+            // {
+            //     printf("%c", x);
+            //     // RETURN_CARRIAGE();
+            //     // ERASE_LINE();
+            //     x_position++;
+            //     notifier("White Space");
+            //     return 0;
+            // }
+            // else
+            if (x == '\b')
             {
                 if (x_position > 1)
                 {
                     x_position--;
                 } // TODO: Safety for negative values
+
+                if (i >= 0)
+                {
+                    i--;
+                }
                 notifier("BackSpace");
+                return 0;
             }
             else if (x == '\x0D')
             {
                 notifier("Enter");
-                // ERASE_LINE();
-                printf("\n");
+                ERASE_LINE();
+                // printf("\n");
                 RETURN_CARRIAGE();
-                y_position++;
+                // y_position++;
                 x_position = 1;
+                return 0;
             }
-            else if (x >= 'a' && x <= 'z' || x >= 'A' && x <= 'Z')
+            else if (x >= 'a' && x <= 'z' || x >= 'A' && x <= 'Z' || x == ' ')
             {
-                notifier("Character");
+                notifier("Character Right");
                 printf("%c", x);
                 x_position++;
+                if (x != text_holder[i])
+                {
+                    char str[2];
+                    str[0] = text_holder[i];
+                    str[1] = '\0';
+                    notifier(str);
+                }
             }
         }
         printf("\n");
-        // -----------------------
         t = clock() - t;
 
+        // -----------------------DASHBOARD------------------------------------
         double time_taken = ((double)t) / 1000;
         total_time_taken += time_taken;
         xprintd("TIME TAKEN:", total_time_taken);
@@ -289,7 +316,7 @@ void main_loop(int line_no)
         xprintd("WPM:", wpm);
 
         printf("%s", border);
-
+        //----------------------------------------------------------------------
         // SCREEN AND BACK TO INPU
         change_screen_text();
 
