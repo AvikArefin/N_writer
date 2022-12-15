@@ -1,8 +1,9 @@
 /*
 N_Writer
-An implementation of the popular type test application(s) available offline and online.
+A console implementation of the popular type test application(s) available offline and online.
 
-Version 0.2 Alpha
+Version 0.1 Beta
+
 Developed by
 Avik Arefin
 ID: 2008013
@@ -182,14 +183,12 @@ void change_screen_text()
 short int x_position = 3, y_position = 4;
 void notifier(char *str)
 {
-    // MOVE_DOWN(4);
     GOTOXY(2, 10);
     ERASE_LINE();
     RETURN_CARRIAGE();
     printf("COMMAND: %s @ [%d, %d]", str, x_position - 2, y_position - 3);
     MOVE_UP(3);
     RETURN_CARRIAGE();
-    // MOVE_FORWARD(x_position);
     GOTOXY(x_position, y_position);
 }
 
@@ -203,43 +202,10 @@ void main_loop(int line_no)
 
     while (line_no > 0)
     {
-        char input[50];
+        char input[70];
 
         clock_t t;
         t = clock();
-
-        // ON GOING: CHECK EACH CHACTER ONE BY ONE
-        // for (int i = 0; i < text_arr.word_num; i++) // one cycle for each word
-        // {
-        //     notify("", i);
-        //     int index = text_arr.arr[i];
-        //     for (int j = 0; j < char_counter(arr[index]); j++) // one cycle for each letter
-        //     {
-        //         char x = c_getch();
-        //         if (x == ' ')
-        //         {
-        //             ERASE_LINE();
-        //             RETURN_CARRIAGE();
-        //             break;
-        //         }
-        //         else if (x == 127)
-        //         {
-        //             // printf(ERASE_LINE);
-        //             notifier("BACKSPACE");
-        //             // TODO: Create a function that would take the cursor to a place, print a text and then come back to the specified place.
-        //         }
-        //         else if (x == arr[index][j])
-        //         {
-        //             printf("%c", x);
-        //         }
-        //         else
-        //         {
-        //             notify("", j);
-        //         }
-        //     }
-        // }
-
-        // ----------------------------
 
         int n = 10;
 
@@ -250,16 +216,6 @@ void main_loop(int line_no)
         for (int i = 0; i < text_holder_no; i++)
         {
             char x = c_getch();
-            // if (x == ' ')
-            // {
-            //     printf("%c", x);
-            //     // RETURN_CARRIAGE();
-            //     // ERASE_LINE();
-            //     x_position++;
-            //     notifier("White Space");
-            //     return 0;
-            // }
-            // else
             if (x == '\b')
             {
                 if (x_position > 1)
@@ -269,7 +225,7 @@ void main_loop(int line_no)
 
                 if (i >= 0)
                 {
-                    i--;
+                    i = i - 2;
                 }
                 notifier("BackSpace");
             }
@@ -296,7 +252,11 @@ void main_loop(int line_no)
                 }
             }
         }
-        printf("\n");
+
+        ERASE_LINE();
+        RETURN_CARRIAGE();
+        xprint("");
+
         t = clock() - t;
 
         // -----------------------DASHBOARD------------------------------------
