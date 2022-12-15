@@ -130,7 +130,8 @@ void text_to_write()
 {
     printf("  ");
     int i = 0;
-    int word_num = 0; // NOT NEDDED ATM
+    int word_num = 0;      // NOT NEDDED ATM
+    text_holder[0] = '\0'; // Emptying a string
     while (i < 60)
     {
         int random_num = random_num_chooser();
@@ -243,6 +244,8 @@ void main_loop(int line_no)
         int n = 10;
 
         GOTOXY(3, 4); // Input line
+        x_position = 3;
+        y_position = 4;
 
         for (int i = 0; i < text_holder_no; i++)
         {
@@ -269,7 +272,6 @@ void main_loop(int line_no)
                     i--;
                 }
                 notifier("BackSpace");
-                return 0;
             }
             else if (x == '\x0D')
             {
@@ -279,7 +281,6 @@ void main_loop(int line_no)
                 RETURN_CARRIAGE();
                 // y_position++;
                 x_position = 1;
-                return 0;
             }
             else if (x >= 'a' && x <= 'z' || x >= 'A' && x <= 'Z' || x == ' ')
             {
