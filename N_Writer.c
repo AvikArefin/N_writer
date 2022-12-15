@@ -1,8 +1,8 @@
 /*
-N_Writer
-A console implementation of the popular type test application(s) available offline and online.
+Name: N_Writer
+Description: A console implementation of the popular type test application(s) available offline and online.
 
-Version 0.1 Beta
+Version: Beta 2
 
 Developed by
 Avik Arefin
@@ -200,7 +200,7 @@ void main_loop(int line_no)
     int total_char_count = 0;
     int total_word_count = 0;
 
-    while (line_no > 0)
+    while (line_no >= 0)
     {
         char input[70];
 
@@ -278,7 +278,7 @@ void main_loop(int line_no)
 
         printf("%s", border);
         //----------------------------------------------------------------------
-        // SCREEN AND BACK TO INPU
+        // SCREEN AND BACK TO INPUT
         change_screen_text();
 
         line_no--;

@@ -17,3 +17,8 @@
 5. Learn git
 
     https://www.freecodecamp.org/news/learn-the-basics-of-git-in-under-10-minutes-da548267cc91/
+
+
+6. How to empty a string
+
+    https://stackoverflow.com/questions/8107826/proper-way-to-empty-a-c-string
