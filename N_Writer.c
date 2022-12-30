@@ -2,7 +2,7 @@
 Name: N_Writer
 Description: A console implementation of the popular type test application(s) available offline and online.
 
-Version: Beta 2
+Version: Beta 3
 
 Developed by
 Avik Arefin
@@ -13,7 +13,7 @@ Licensed under GPL 2.0
 
 #include <stdio.h>
 #include <string.h>
-#include "conio.c"   // For getch
+#include <conio.h>   // For getch
 #include <stdlib.h>  //
 #include <time.h>    // For the timer
 #include <windows.h> // For the Sleep funtion
@@ -33,33 +33,6 @@ Licensed under GPL 2.0
 short int x_position = 3, y_position = 4;
 int text_holder_index = 0;
 
-
-// (-1, 1) would mean 1 row down and 1 column up
-// void reative_cursor_mover(int row, int column)
-// {
-//     if (row > 0)
-//         MOVE_FORWARD(row);
-//     else
-//         MOVE_BACKWARD(column);
-//     if (column > 0)
-//         MOVE_FORWARD(column);
-//     else
-//         MOVE_BACKWARD(column);
-// }
-//
-// int word_counter(char *input, int char_count)
-// {
-//     int word_count = 0;
-//     for (int i = 0; i < char_count; i++)
-//     {
-//         if (input[i] == ' ')
-//         {
-//             word_count++;
-//         }
-//     }
-//     return word_count + 1;
-// }
-
 int char_counter(const char *input)
 {
     int char_count = 0;
@@ -69,14 +42,6 @@ int char_counter(const char *input)
     }
     return char_count;
 }
-
-// void loop_func(char *str, int no)
-// {
-//     for (int i = 0; i < no; i++)
-//     {
-//         printf("%s", str);
-//     }
-// }
 
 const char border[] = "================================================================\n";
 const char welcome[] = "Welcome to the typing test. Where only the fast remains";
@@ -330,13 +295,6 @@ int string_length(const char *str)
     return len;
 }
 
-// struct Power_array
-// {
-//     int word_num;
-//     int arr[20];
-// };
-// struct Power_array text_arr;
-
 int text_holder_no = 0; // ADDED
 char text_holder[100] = "";
 
@@ -403,7 +361,6 @@ void notifier(char *str)
     RETURN_CARRIAGE();
     GOTOXY(x_position, y_position);
 }
-
 
 void main_loop(int line_no)
 {
@@ -493,7 +450,7 @@ void main_loop(int line_no)
 
         printf("%s", border);
 
-        // //----------------------------------------------------------------------
+        //----------------------------------------------------------------------
         // SCREEN AND BACK TO INPUT
         change_screen_text();
 
