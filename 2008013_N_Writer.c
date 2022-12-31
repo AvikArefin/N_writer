@@ -2,7 +2,7 @@
 Name: N_Writer
 Description: A console implementation of the popular type test application(s) available offline and online.
 
-Version: Beta 3
+Version: Beta 4
 
 Developed by
 Avik Arefin
@@ -21,17 +21,35 @@ Licensed under GPL 2.0
 #define ERASE_LINE() printf("\33[2K")
 #define RETURN_CARRIAGE() printf("\r")
 // #define CLEAR_SCREEN() printf("\033[2J")
-
 #define GOTOXY(x, y) printf("\033[%d;%dH", y, x)
-
 #define MOVE_UP(x) printf("\033[%dA", x)
 #define MOVE_DOWN(x) printf("\033[%dB", x)
 #define MOVE_FORWARD(x) printf("\033[%dC", x)
 #define MOVE_BACKWARD(x) printf("\033[%dD", x)
 
+#define PATH_TO_THE_WORDLIST "./high_fequency_wordlist_500.txt"
+
 // GLOBAL VARIABLES
 short int x_position = 3, y_position = 4;
 int text_holder_index = 0;
+
+const char border[] = "================================================================\n";
+const char welcome[] = "Welcome to the typing test. Where only the fast remains";
+const char instruction[] = "Type the text above.";
+
+char arr[500][50];
+
+void load_words_from_file()
+{
+    int x = 0;
+    FILE *word_file = fopen(PATH_TO_THE_WORDLIST, "r");
+    while (!feof(word_file))
+    {
+        fgets(arr[x], 50, word_file);
+        arr[x][strcspn(arr[x], "\n")] = 0;
+        x++;
+    }
+}
 
 int char_counter(const char *input)
 {
@@ -43,256 +61,15 @@ int char_counter(const char *input)
     return char_count;
 }
 
-const char border[] = "================================================================\n";
-const char welcome[] = "Welcome to the typing test. Where only the fast remains";
-const char instruction[] = "Type the text above.";
-
 int random_num_chooser()
 {
+
     int i = 200, k = 0;
     k = rand() % i;
+    char str[100];
+    snprintf(str, sizeof(str), "%d", k);
+    // notifier(str);
     return k;
-}
-
-const char *arr[] = {
-    "Baron",
-    "address",
-    "adequate",
-    "adjust",
-    "adjustment",
-    "admire",
-    "admission",
-    "admit",
-    "adolescent",
-    "adopt",
-    "adult",
-    "advance",
-    "advanced",
-    "advantage",
-    "adventure",
-    "advertising",
-    "advice",
-    "advise",
-    "adviser",
-    "advocate",
-    "affair",
-    "affect",
-    "afford",
-    "afraid",
-    "African",
-    "after",
-    "afternoon",
-    "again",
-    "against",
-    "age",
-    "agency",
-    "agenda",
-    "agent",
-    "aggressive",
-    "ago",
-    "agree",
-    "agreement",
-    "ah",
-    "ahead",
-    "aid",
-    "aide",
-    "AIDS",
-    "aim",
-    "air",
-    "aircraft",
-    "airline",
-    "airport",
-    "album",
-    "alcohol",
-    "alive",
-    "all",
-    "alliance",
-    "allow",
-    "ally",
-    "almost",
-    "alone",
-    "along",
-    "already",
-    "also",
-    "alter",
-    "alternative",
-    "although",
-    "always",
-    "amazing",
-    "American",
-    "among",
-    "amount",
-    "analysis",
-    "analyst",
-    "analyze",
-    "ancient",
-    "and",
-    "anger",
-    "angle",
-    "angry",
-    "animal",
-    "anniversary",
-    "announce",
-    "annual",
-    "another",
-    "answer",
-    "anticipate",
-    "anxiety",
-    "any",
-    "anybody",
-    "anymore",
-    "anyone",
-    "anything",
-    "anyway",
-    "anywhere",
-    "apart",
-    "apartment",
-    "apparent",
-    "apparently",
-    "appeal",
-    "appear",
-    "appearance",
-    "apple",
-    "application",
-    "apply",
-    "appoint",
-    "appointment",
-    "appreciate",
-    "approach",
-    "appropriate",
-    "approval",
-    "approve",
-    "Arab",
-    "architect",
-    "area",
-    "argue",
-    "argument",
-    "arise",
-    "arm",
-    "armed",
-    "army",
-    "around",
-    "arrest",
-    "arrival",
-    "arrive",
-    "art",
-    "article",
-    "artist",
-    "artistic",
-    "as",
-    "Asian",
-    "aside",
-    "ask",
-    "asleep",
-    "aspect",
-    "assault",
-    "assert",
-    "assess",
-    "asset",
-    "assign",
-    "assure",
-    "at",
-    "athlete",
-    "athletic",
-    "atmosphere",
-    "attach",
-    "attack",
-    "attempt",
-    "attend",
-    "case",
-    "cash",
-    "cast",
-    "cat",
-    "catch",
-    "attention",
-    "attitude",
-    "attorney",
-    "attract",
-    "attractive",
-    "attribute",
-    "audience",
-    "author",
-    "authority",
-    "auto",
-    "available",
-    "average",
-    "avoid",
-    "award",
-    "aware",
-    "awareness",
-    "away",
-    "awful",
-    "baby",
-    "back",
-    "background",
-    "bad",
-    "badly",
-    "bag",
-    "bake",
-    "balance",
-    "ball",
-    "ban",
-    "band",
-    "bank",
-    "bar",
-    "barely",
-    "barrel",
-    "barrier",
-    "base",
-    "baseball",
-    "basic",
-    "basically",
-    "basis",
-    "basket",
-    "basketball",
-    "bathroom",
-    "battery",
-    "battle",
-    "be",
-    "beach",
-    "bean",
-    "bear",
-    "beat",
-    "beautiful",
-    "beauty",
-    "because",
-    "become",
-    "bed",
-    "bedroom",
-    "beer",
-    "before",
-    "begin",
-    "beginning",
-    "behavior",
-    "behind",
-    "being",
-    "belief",
-    "believe",
-    "bell",
-    "Demon",
-    "Hellknight",
-    "demon",
-    "Mancubus",
-    "Revenant",
-    "Doomimp",
-    "Zombie",
-    "Shotguy",
-    "Beholder",
-    "Moloch",
-    "Satyr",
-    "Afrit",
-    "Cybermaster",
-    "Nightmare",
-};
-
-int string_length(const char *str)
-{
-    int len = 0;
-    while (str[len] != '\0')
-    {
-        len++;
-    }
-    return len;
 }
 
 int text_holder_no = 0; // ADDED
@@ -322,6 +99,7 @@ void text_to_write()
 
     text_holder_no = char_counter(text_holder); // ADDED
 }
+
 
 void xprint(const char *str)
 {
@@ -356,7 +134,7 @@ void notifier(char *str)
     GOTOXY(2, 10);
     ERASE_LINE();
     RETURN_CARRIAGE();
-    printf("COMMAND: %s @ [%d, %d]", str, x_position - 2, y_position - 3);
+    printf("COMMAND: %s @ [%d TH]", str, x_position - 2);
     MOVE_UP(3);
     RETURN_CARRIAGE();
     GOTOXY(x_position, y_position);
@@ -477,8 +255,10 @@ int main()
     ERASE_LINE();
     xprint("");
 
+    load_words_from_file();
+
     main_loop(line_no);
-    // PAUSE FOR A BIT
+
     char c = getch();
     return 0;
 }
