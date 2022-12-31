@@ -256,7 +256,8 @@ int main()
     xprint("");
 
     load_words_from_file();
-
+    
+    srand(time(NULL));
     main_loop(line_no);
 
     char c = getch();
