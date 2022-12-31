@@ -63,7 +63,6 @@ int char_counter(const char *input)
 
 int random_num_chooser()
 {
-
     int i = 200, k = 0;
     k = rand() % i;
     char str[100];
@@ -99,7 +98,6 @@ void text_to_write()
 
     text_holder_no = char_counter(text_holder); // ADDED
 }
-
 
 void xprint(const char *str)
 {
@@ -164,7 +162,7 @@ void main_loop(int line_no)
             char x = getch();
             if (x == '\b')
             {
-                if (x_position > 1)
+                if (x_position > 3)
                 {
                     x_position--;
                 } // TODO: Safety for negative values
@@ -256,7 +254,7 @@ int main()
     xprint("");
 
     load_words_from_file();
-    
+
     srand(time(NULL));
     main_loop(line_no);
 
