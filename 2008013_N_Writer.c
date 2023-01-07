@@ -11,6 +11,8 @@ ID: 2008013
 Licensed under GPL 2.0
 */
 
+// ---- PLEASE MAKE SURE A FILE NAME high_fequency_wordlist_500 EXISTS IN THE SAME DIRECTORY AS THE THE EXE.
+
 #include <stdio.h>
 #include <string.h>
 #include <conio.h>   // For getch
