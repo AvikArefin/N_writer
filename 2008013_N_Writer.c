@@ -1,7 +1,7 @@
 /*
 Name: N_Writer
 Description: A console implementation of the popular type test application(s) available offline and online.
-
+Source Code: https://github.com/AvikArefin/N_writer.git
 Version: Beta 4
 
 Developed by
