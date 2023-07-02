@@ -2,7 +2,7 @@
 Name: N_Writer
 Description: A console implementation of the popular type test application(s) available offline and online.
 Source Code: https://github.com/AvikArefin/N_writer.git
-Version: Beta 4
+Version: 1.0.0
 
 Developed by
 Avik Arefin
@@ -11,7 +11,7 @@ ID: 2008013
 Licensed under GPL 2.0
 */
 
-// ---- PLEASE MAKE SURE A FILE NAME high_fequency_wordlist_500 EXISTS IN THE SAME DIRECTORY AS THE THE EXE.
+// ---- PLEASE MAKE SURE A FILE NAME wordlist.txt EXISTS IN THE SAME DIRECTORY AS THE THE EXE.
 
 #include <stdio.h>
 #include <string.h>
@@ -29,7 +29,7 @@ Licensed under GPL 2.0
 #define MOVE_FORWARD(x) printf("\033[%dC", x)
 #define MOVE_BACKWARD(x) printf("\033[%dD", x)
 
-#define PATH_TO_THE_WORDLIST "./high_fequency_wordlist_500.txt"
+#define PATH_TO_THE_WORDLIST "./wordlist.txt"
 
 // GLOBAL VARIABLES
 short int x_position = 3, y_position = 4;
